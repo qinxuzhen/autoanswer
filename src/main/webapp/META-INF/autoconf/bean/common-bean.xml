@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <bean id="configHelper" class="com.alibaba.webx.autoanswer.app1.util.ConfigHelper">
+		<property name="daYuAppKey" value="${robot.daYuAppKey}" />
+		<property name="daYuappSecret" value="${robot.daYuappSecret}" />
+		<property name="daYuappNum" value="${robot.daYuappNum}" />
+		<property name="daYuURL" value="${robot.daYuURL}" />
+		<property name="ACCESS_ID" value="${robot.ACCESS_ID}" />
+		<property name="ACCESS_KEY" value="${robot.ACCESS_KEY}" />
+		<property name="RECORD_BUCKET" value="${robot.RECORD_BUCKET}" />
+		<property name="END_POINT" value="${robot.END_POINT}" />
+	</bean>
+    
+</beans>

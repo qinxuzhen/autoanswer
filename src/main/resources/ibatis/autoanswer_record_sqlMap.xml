@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap >
+
+    <typeAlias alias="recordDO" type="com.alibaba.webx.autoanswer.app1.model.RecordDO"/>
+	
+	<sql id="record_query_field">
+		id as id,
+		start_time as startTime,
+		end_time as endTime,
+		number_caller as numberCaller,
+		number_callee as numberCallee,
+		time_length as timeLength,
+		attach_path as attachPath,
+		text_path as textPath
+	</sql>
+	
+	<sql id="record_query_params">
+		<dynamic prepend="WHERE">
+			<isNotNull property="id" prepend="and">
+				id=#id#
+			</isNotNull>
+			<isNotNull property="numberCaller" prepend="and">
+				number_caller=#numberCaller#
+			</isNotNull>
+			<isNotNull property="numberCallee" prepend="and">
+				number_callee=#numberCallee#
+			</isNotNull>
+	        <isNotNull prepend="and" property="startDate">
+				<![CDATA[
+					start_time >= #startDate:TIMESTAMP#
+				]]>
+			</isNotNull>
+			<isNotNull prepend="and" property="endDate">
+				<![CDATA[
+					start_time <= #endDate:TIMESTAMP# 
+				]]>
+			</isNotNull>
+			order by start_time desc
+		</dynamic>
+	</sql>
+	
+    <!-- insert into 基本语句 -->
+	<insert id="record.insert" parameterClass="recordDO">
+	insert into record_info(start_time,end_time,number_caller,number_callee,time_length,attach_path,text_path)
+	values(#startTime#,#endTime#,,#numberCaller#,#numberCallee#,#timeLength#,#attachPath#,#textPath#)
+		<selectKey resultClass="long">
+            select last_insert_id()
+        </selectKey>
+	</insert>
+ 	
+ 	<select id="record.insert" parameterClass="java.util.Map" resultClass="recordDO">
+		select
+		<include refid="record_query_field" />
+		from record_info
+		<include refid="record_query_params" />
+		<dynamic>
+			<isNotNull property="start">
+				<isNotNull property="limit">
+					limit #start#,#limit#
+				</isNotNull>
+			</isNotNull>
+		</dynamic>
+	</select>
+ 	
+  	<!-- select count() 基本语句 -->
+	<select id="record.count" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		select count(1) from wp_work_order
+		<include refid="record_query_params" />
+	</select>
+</sqlMap>

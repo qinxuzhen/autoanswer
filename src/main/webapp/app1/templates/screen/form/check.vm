@@ -1,0 +1,124 @@
+<!--header start-->
+<div class="dpl-header">
+    <div class="dpl-header-body">
+        <!--logoStart-->
+        <div class="dpl-logo">
+            <div class="dpl-logo-map rookie-icon"></div>
+            <span class="dpl-title-small">小二工作台</span>
+        </div>
+
+        <!--user info-->
+        <div class="dpl-right-icon dpl-user-info">
+            <div class="dpl-user-name-par dpl-user-map J_MenuTR">
+                <div class="b-user-mask"></div>
+            </div>
+        </div>
+
+        <!--asyn message-->
+
+        <div id="J_Toast" class="dpl-toast">
+            <div class="J_ToastContent dpl-toast-content"></div>
+        </div>
+
+    </div>
+</div>
+<!--header end-->
+
+<!--left menu start-->
+<div class="dpl-left dpl-left-fold" id="J_DplLeftMenu" style="height:-webkit-calc(100% - (50px));height:-moz-calc(100% - (50px));height:-o-calc(100% - (50px));height:-ms-calc(100% - (50px));">
+
+    <div class="dpl-ex-handler"  style="display:none"  id="J_ExBar"></div>
+
+    <div class="dpl-leftContent dpl-no-icon ">
+        <div id="wrapper">
+
+            <div class="dpl-item">
+                <span class=" ">呼叫查询 <i class="dpl-up"></i></span>
+                <ul class="dpl-detail ">
+                    <li class=""><a  href="check.htm"><div class="dpl-a-content">呼叫工具</div></a></li>
+                    <li class=""><a  href="check.htm"><div class="dpl-a-content">文本检索</div></a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <div class="dpl-scroll-bar" id="J_ScrollBar"></div>
+</div>
+<script src="//g.alicdn.com/cn/platform-base/1.0.0/widget/menuHeader/header.js"></script>
+
+<!--left menu end-->
+<div class="dpl-www-content" id="J_Content" >
+
+    <!-- 表单区域 -->
+    <form class="form-horizontal " id="J_searchForm" data-xtype="form">
+        <div class="row row-flex b-search-form b-region mt-10">
+            <div class="col-flex">
+                <div class="row cols-fixed">
+                    <div class="col-lg-5">
+                        <div class="c-select input-group" id = "start-date" data-label="开始时间" data-name="start-date"
+                             data-xtype="calendar-select-field" data-value="$lastweek">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <div class="c-select input-group" id = "end-date" data-label="结束时间" data-name="end-date"
+                             data-xtype="calendar-select-field" data-value="$today">
+                        </div>
+                    </div>
+
+                    <!--input 输入框-->
+                    <div class="col-lg-5">
+                        <div class="input-group" data-label="主叫号码" data-name="caller-Num" data-xtype="text-field"></div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="input-group" data-label="被叫号码" data-name="callee-Num" data-xtype="text-field"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <button type="button" class="btn btn-primary mt-10 J_Search">查询</button>
+            </div>
+        </div>
+
+    </form>
+    <!-- 表单区域 -->
+
+    <!-- 列表区域 -->
+    <div class="row b-region mt-10">
+        <div id="Toolbar" class="row row-flex b-toolbar">
+            <div class="col-flex"></div>
+        </div>
+
+        <div id="J_DataTable1"></div>
+        <div id="J_Paging1" class="pull-right"></div>
+    </div>
+
+
+    <div id="J_dialog" style="display:none;">
+        <form id="J_dialogForm" class="form-horizontal" >
+            <div class="row">
+                <div class="col-lg-20" id="J_dialogContent">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        seajs.config({
+            paths: {
+                'bms-base': '//g.alicdn.com/cn/bms-base/1.0.1',
+                'pages': '//g.alicdn.com/cn-dev/train-jingdao/1.0.4/pages'
+            }
+        });
+
+
+        C.use('pages/checkForm', function(Page){
+            var page = new Page({
+                autoRender: true,
+                queryUrl: '/multievent/record_service/getRecordList.json',
+                requestUrl:'/multievent/record_service/doGetFullText.json',
+            });
+        });
+    </script>
+
+</div>

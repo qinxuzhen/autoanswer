@@ -1,52 +1,49 @@
 package com.alibaba.webx.autoanswer.app1.model;
 
-import java.sql.Date;
+import java.util.Date;
+
 
 /**
- * å½•éŸ³è®°å½•
+ * Â¼Òô¼ÇÂ¼
  * @author xuzhen.qxz
  *
  */
 public class RecordDO {
 	
 	/**
-	 * ä¸»é”®
+	 * Ö÷¼ü
 	 */
 	private Long id;
 	
 	/**
-	 * å¼€å§‹æ—¶é—´
+	 * ºô½ĞID
 	 */
-	
-	private Date startTime;
+	private String modelId;
 	
 	/**
-	 * ç»“æŸæ—¶é—´
+	 * ´´½¨Ê±¼ä
 	 */
-	private Date endTime;
+	private Date gmtCreate;
 	
 	/**
-	 * ä¸»å«äººå·ç 
+	 * Ö÷½ĞÈËºÅÂë
 	 */
 	private String numberCaller;
 	
 	/**
-	 * è¢«å«äººå·ç 
+	 * ±»½ĞÈËºÅÂë
 	 */
 	private String numberCallee;
 	
-	/**
-	 * é€šè¯æ—¶é•¿
-	 */
-	private Long timeLength;
 	
 	/**
-	 * é€šè¯å½•éŸ³å­˜å‚¨åœ°å€
+	 * Â¼ÒôÎÄ¼şÃû³Æ
 	 */
-	private String attachPath;
+	private String fileName;
+	
 	
 	/**
-	 * ç¿»è¯‘æ–‡æœ¬åœ°å€
+	 * ·­ÒëÎÄ±¾µØÖ·
 	 */
 	private String textPath;
 
@@ -65,32 +62,19 @@ public class RecordDO {
 	}
 
 	/**
-	 * @return the startTime
+	 * @return the gmtCreate
 	 */
-	public Date getStartTime() {
-		return startTime;
+	public Date getGmtCreate() {
+		return gmtCreate;
 	}
 
 	/**
-	 * @param startTime the startTime to set
+	 * @param gmtCreate the startTime to set
 	 */
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
+	public void setGmtCreate(Date gmtCreate) {
+		this.gmtCreate = gmtCreate;
 	}
 
-	/**
-	 * @return the endTime
-	 */
-	public Date getEndTime() {
-		return endTime;
-	}
-
-	/**
-	 * @param endTime the endTime to set
-	 */
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
 
 	/**
 	 * @return the numberCaller
@@ -119,36 +103,30 @@ public class RecordDO {
 	public void setNumberCallee(String numberCallee) {
 		this.numberCallee = numberCallee;
 	}
-
-	/**
-	 * @return the timeLength
-	 */
-	public Long getTimeLength() {
-		return timeLength;
-	}
-
-	/**
-	 * @param timeLength the timeLength to set
-	 */
-	public void setTimeLength(Long timeLength) {
-		this.timeLength = timeLength;
-	}
-
-	/**
-	 * @return the attachPath
-	 */
-	public String getAttachPath() {
-		return attachPath;
-	}
-
-	/**
-	 * @param attachPath the attachPath to set
-	 */
-	public void setAttachPath(String attachPath) {
-		this.attachPath = attachPath;
-	}
 	
-	/**
+	
+    public String getModelId() {
+        return modelId;
+    }
+
+    
+    public void setModelId(String modelId) {
+        this.modelId = modelId;
+    }
+
+    
+    public String getFileName() {
+        return fileName;
+    }
+
+    
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+    
+    
+
+    /**
 	 * @return the textPath
 	 */
 	public String getTextPath() {

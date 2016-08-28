@@ -18,9 +18,14 @@
 package com.alibaba.webx.autoanswer.app1.module.screen.multievent;
 
 import java.io.IOException;
+
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.alibaba.webx.autoanswer.app1.dao.RecordDAO;
+import com.alibaba.webx.autoanswer.app1.model.RecordDO;
 
 /**
  * 这个例子演示了用一个screen类处理多个事件的方法。
@@ -30,6 +35,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class SayHello1 {
     @Autowired
     private HttpServletResponse response;
+    @Resource
+    RecordDAO recordDAO;
 
     /** 此方法会在所有的event handler之前执行。 */
     public void beforeExecution() {
@@ -49,6 +56,16 @@ public class SayHello1 {
     /** 英文 */
     public void doEnglish() throws IOException {
         response.getWriter().println("English: Hello");
+        System.out.println("test record");
+        RecordDO recordDO = new RecordDO();
+        recordDO.setCallingNumber("17706519918");
+        recordDO.setCalledNumber("17098040104");
+        recordDO.setModelId("model");
+        recordDO.setVoiceFileUrl("VoiceFile");
+        recordDO.setVoiceText("text");
+        
+        recordDAO.addRecord(recordDO);
+        
     }
 
     /** 中文 */

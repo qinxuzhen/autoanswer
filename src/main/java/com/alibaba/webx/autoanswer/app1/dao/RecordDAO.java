@@ -3,7 +3,6 @@ package com.alibaba.webx.autoanswer.app1.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.alibaba.webx.autoanswer.app1.common.PaginationResult;
 import com.alibaba.webx.autoanswer.app1.model.RecordDO;
 
 public interface RecordDAO {

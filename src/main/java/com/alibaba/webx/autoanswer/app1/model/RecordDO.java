@@ -14,129 +14,118 @@ public class RecordDO {
 	 * 主键
 	 */
 	private Long id;
-	
-	/**
-	 * 呼叫ID
-	 */
-	private String modelId;
-	
 	/**
 	 * 创建时间
 	 */
 	private Date gmtCreate;
 	
 	/**
+	 * 修改时间
+	 */
+	private Date gmtModified;
+	
+	/**
+	 * 呼叫时间
+	 */
+	private Date callTime;
+	
+
+	/**
 	 * 主叫人号码
 	 */
-	private String numberCaller;
+	private String callingNumber;
 	
 	/**
 	 * 被叫人号码
 	 */
-	private String numberCallee;
-	
-	
-	/**
-	 * 录音文件名称
-	 */
-	private String fileName;
-	
+	private String calledNumber;
 	
 	/**
-	 * 翻译文本地址
+	 * 文本内容
 	 */
-	private String textPath;
+	private String voiceText;
+	
+	/**
+	 * 录音文件地址
+	 */
+	private String voiceFileUrl;
+	
+	/**
+	 * 呼叫ID
+	 */
+	private String modelId;
 
-	/**
-	 * @return the id
-	 */
 	public Long getId() {
 		return id;
 	}
 
-	/**
-	 * @param id the id to set
-	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	/**
-	 * @return the gmtCreate
-	 */
 	public Date getGmtCreate() {
 		return gmtCreate;
 	}
 
-	/**
-	 * @param gmtCreate the startTime to set
-	 */
 	public void setGmtCreate(Date gmtCreate) {
 		this.gmtCreate = gmtCreate;
 	}
 
-
-	/**
-	 * @return the numberCaller
-	 */
-	public String getNumberCaller() {
-		return numberCaller;
+	public Date getGmtModified() {
+		return gmtModified;
 	}
 
-	/**
-	 * @param numberCaller the numberCaller to set
-	 */
-	public void setNumberCaller(String numberCaller) {
-		this.numberCaller = numberCaller;
+	public void setGmtModified(Date gmtModified) {
+		this.gmtModified = gmtModified;
 	}
 
-	/**
-	 * @return the numberCallee
-	 */
-	public String getNumberCallee() {
-		return numberCallee;
+	public Date getCallTime() {
+		return callTime;
 	}
 
-	/**
-	 * @param numberCallee the numberCallee to set
-	 */
-	public void setNumberCallee(String numberCallee) {
-		this.numberCallee = numberCallee;
+	public void setCallTime(Date callTime) {
+		this.callTime = callTime;
+	}
+
+	public String getCallingNumber() {
+		return callingNumber;
+	}
+
+	public void setCallingNumber(String callingNumber) {
+		this.callingNumber = callingNumber;
+	}
+
+	public String getCalledNumber() {
+		return calledNumber;
+	}
+
+	public void setCalledNumber(String calledNumber) {
+		this.calledNumber = calledNumber;
+	}
+
+	public String getVoiceText() {
+		return voiceText;
+	}
+
+	public void setVoiceText(String voiceText) {
+		this.voiceText = voiceText;
+	}
+
+	public String getVoiceFileUrl() {
+		return voiceFileUrl;
+	}
+
+	public void setVoiceFileUrl(String voiceFileUrl) {
+		this.voiceFileUrl = voiceFileUrl;
+	}
+
+	public String getModelId() {
+		return modelId;
+	}
+
+	public void setModelId(String modelId) {
+		this.modelId = modelId;
 	}
 	
 	
-    public String getModelId() {
-        return modelId;
-    }
-
-    
-    public void setModelId(String modelId) {
-        this.modelId = modelId;
-    }
-
-    
-    public String getFileName() {
-        return fileName;
-    }
-
-    
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-    
-    
-
-    /**
-	 * @return the textPath
-	 */
-	public String getTextPath() {
-		return textPath;
-	}
-
-	/**
-	 * @param textPath the textPath to set
-	 */
-	public void setTextPath(String textPath) {
-		this.textPath = textPath;
-	}
 }

@@ -6,53 +6,51 @@
 	
 	<sql id="record_query_field">
 		id as id,
-		start_time as startTime,
-		end_time as endTime,
-		number_caller as numberCaller,
-		number_callee as numberCallee,
-		time_length as timeLength,
-		attach_path as attachPath,
-		text_path as textPath
+		gmt_create as gmtCreate,
+		gmt_modified as gmtModified,
+		call_time as callTime,
+		calling_number as callingNumber,
+		called_number as calledNumber,
+		voice_text as voiceText,
+		voice_file_url as voiceFileUrl,
+		model_id as modelId
 	</sql>
 	
 	<sql id="record_query_params">
 		<dynamic prepend="WHERE">
-			<isNotNull property="id" prepend="and">
-				id=#id#
+			<isNotNull property="callingNumber" prepend="and">
+				calling_number=#callingNumber#
 			</isNotNull>
-			<isNotNull property="numberCaller" prepend="and">
-				number_caller=#numberCaller#
-			</isNotNull>
-			<isNotNull property="numberCallee" prepend="and">
-				number_callee=#numberCallee#
+			<isNotNull property="calledNumber" prepend="and">
+				called_number=#calledNumber#
 			</isNotNull>
 	        <isNotNull prepend="and" property="startDate">
 				<![CDATA[
-					start_time >= #startDate:TIMESTAMP#
+					call_time >= #startDate:TIMESTAMP#
 				]]>
 			</isNotNull>
 			<isNotNull prepend="and" property="endDate">
 				<![CDATA[
-					start_time <= #endDate:TIMESTAMP# 
+					callTime <= #endDate:TIMESTAMP# 
 				]]>
 			</isNotNull>
-			order by start_time desc
+			order by call_time desc
 		</dynamic>
 	</sql>
 	
     <!-- insert into 基本语句 -->
 	<insert id="record.insert" parameterClass="recordDO">
-	insert into record_info(start_time,end_time,number_caller,number_callee,time_length,attach_path,text_path)
-	values(#startTime#,#endTime#,,#numberCaller#,#numberCallee#,#timeLength#,#attachPath#,#textPath#)
+	insert into voice_record(gmt_create,gmt_modified,call_time,calling_number,called_number,voice_text,voice_file_url,model_id)
+	values(now(),now(),now(),#callingNumber#,#calledNumber#,#voiceText#,#voiceFileUrl#,#modelId#)
 		<selectKey resultClass="long">
             select last_insert_id()
         </selectKey>
 	</insert>
  	
- 	<select id="record.insert" parameterClass="java.util.Map" resultClass="recordDO">
+ 	<select id="record.select" parameterClass="java.util.Map" resultClass="recordDO">
 		select
 		<include refid="record_query_field" />
-		from record_info
+		from voice_record
 		<include refid="record_query_params" />
 		<dynamic>
 			<isNotNull property="start">
@@ -65,7 +63,7 @@
  	
   	<!-- select count() 基本语句 -->
 	<select id="record.count" parameterClass="java.util.Map" resultClass="java.lang.Integer">
-		select count(1) from wp_work_order
+		select count(1) from voice_record
 		<include refid="record_query_params" />
 	</select>
 </sqlMap>

@@ -28,10 +28,10 @@ public class RecordService {
             recordDO.setId(Long.valueOf(i));
             recordDO.setGmtCreate(new Date());
             recordDO.setModelId("modelId");
-            recordDO.setNumberCaller("1770651991"+ i);
-            recordDO.setNumberCallee("1709804010"+ i);
-            recordDO.setFileName("http://autoanswer.oss-cn-shanghai.aliyuncs.com/Freeswitch_RU_7e515b72-94db-4869-8fae-e75c9ecda2fa_record.wav");
-            recordDO.setTextPath("http://www.test.com");
+            recordDO.setCallingNumber("1770651991"+ i);
+            recordDO.setCalledNumber("1709804010"+ i);
+            recordDO.setVoiceFileUrl("http://autoanswer.oss-cn-shanghai.aliyuncs.com/Freeswitch_RU_7e515b72-94db-4869-8fae-e75c9ecda2fa_record.wav");
+            recordDO.setVoiceText("http://www.test.com");
             list.add(recordDO);
         }
         result.setData(list);

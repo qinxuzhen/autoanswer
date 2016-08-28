@@ -2,7 +2,6 @@
 <!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
         "http://ibatis.apache.org/dtd/sql-map-config-2.dtd" >
 <sqlMapConfig>
-    <settings useStatementNamespaces="true" />
 
 	<sqlMap resource="ibatis/autoanswer_record_sqlMap.xml" />
     

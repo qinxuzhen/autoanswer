@@ -24,20 +24,6 @@
 			<value>jdbc:mysql://${dbhost}:3306/autoanswer</value>
 		</property>
 	</bean>
-   
-   <bean id="transactionTemplate"
-            class="org.springframework.transaction.support.TransactionTemplate">
-        <property name="transactionManager">
-            <ref local="workplatformTransactionManager" />
-        </property>
-    </bean>
-
-    <bean id="workplatformTransactionManager"
-          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource">
-            <ref local="autodataSource" />
-        </property>
-    </bean>
 
 	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
 		<!-- 此处应注入ibatis配置文件，而非sqlMap文件，否则会出现“there is no statement.....异常” -->

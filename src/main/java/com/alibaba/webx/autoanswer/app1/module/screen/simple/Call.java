@@ -48,19 +48,19 @@ public class Call {
     public void execute(@Param("fromNum") String fromNum,@Param("toNum") String toNum ) throws Exception {
         TaobaoClient client = new DefaultTaobaoClient(url, configHelper.getDaYuAppKey(), configHelper.getDaYuappSecret());
         AlibabaAliqinFcVoiceNumDoublecallRequest req = new AlibabaAliqinFcVoiceNumDoublecallRequest();
-        req.setSessionTimeOut("120");
-        req.setExtend("12345");
-        req.setCallerNum(fromNum);
-        req.setCallerShowNum(configHelper.getDaYuappNum());
-        req.setCalledNum(toNum);
-        req.setCalledShowNum(configHelper.getDaYuappNum());
-        AlibabaAliqinFcVoiceNumDoublecallResponse rsp = client.execute(req);
-        System.out.println(rsp.getBody());
-
+//        req.setSessionTimeOut("120");
+//        req.setExtend("12345");
+//        req.setCallerNum(fromNum);
+//        req.setCallerShowNum(configHelper.getDaYuappNum());
+//        req.setCalledNum(toNum);
+//        req.setCalledShowNum(configHelper.getDaYuappNum());
+//        AlibabaAliqinFcVoiceNumDoublecallResponse rsp = client.execute(req);
+//        System.out.println(rsp.getBody());
+//
         RecordHandleThread recordHandleThread = new RecordHandleThread();
         recordHandleThread.setRetry(20);
-//        recordHandleThread.setModel("102501079459^100279263324");
-        recordHandleThread.setModel(rsp.getResult().getModel());
+        recordHandleThread.setModel("102789385954^100288645120");
+//        recordHandleThread.setModel(rsp.getResult().getModel());
         recordHandleThread.start();
 
 
@@ -94,19 +94,20 @@ public class Call {
                 try {
                     String result = RecordIOManagerImpl.checkFileExistence(url);
                     if(StringUtil.isBlank(result)){
-                        Thread.sleep(1000);
+                        Thread.sleep(60000);
                         continue;
                     }
                     System.out.print(result);
                     String urlStr = configHelper.getDaYuURL() + result;
                     String fileName = model.replace('^', '0') + ".wav";
                     File fileDownload = RecordIOManagerImpl.downLoadFileFromURL(urlStr,fileName,"../records");
+                    if(fileDownload == null) continue;
                     String ossPath = ossManager.uploadFile(fileDownload);
-                    
+                    System.out.println("ossPath:" + ossPath);
                     File translateFile = translation.write2File(ossPath,"../transTxt",model.replace('^', '0') + ".txt");
                     if(translateFile != null)
                     	ossManager.uploadFile(translateFile);
-
+                    break;
                 }catch (Exception e){
                     System.out.println(e);
                 }

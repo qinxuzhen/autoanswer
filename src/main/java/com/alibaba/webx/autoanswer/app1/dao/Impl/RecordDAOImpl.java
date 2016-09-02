@@ -19,12 +19,17 @@ public class RecordDAOImpl extends AbstractTransactionBaseDAO implements RecordD
 	public Long addRecord(RecordDO recordDO) {
 		return (Long)this.getSqlMapClientTemplate().insert("record.insert",recordDO);
 	}
+	
+	
 
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
 	public List<RecordDO> queryByRecordDO(Map<String, Object> params) {
 		return (List<RecordDO>)this.getSqlMapClientTemplate().queryForList("record.query",params);
 	}
-	
 
+	@Override
+	public Integer upDateRecord(Map<String, Object> params) {
+		return (Integer)this.getSqlMapClientTemplate().update("record.update", params);
+	}
 }

@@ -18,4 +18,11 @@ public interface RecordDAO {
 	 * 按照条件筛选通话录音
 	 */
 	public List<RecordDO> queryByRecordDO(Map<String, Object> params);
+	
+	/**
+	 * 将翻译结果写到数据库
+	 * @param params
+	 * @return
+	 */
+	public Integer upDateRecord(Map<String, Object> params);
 }

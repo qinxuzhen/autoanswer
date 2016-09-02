@@ -47,6 +47,20 @@
         </selectKey>
 	</insert>
  	
+ 	<update id="record.update" parameterClass="java.util.Map">
+ 		update voice_record
+        set gmt_modified=now()
+        <dynamic>
+            <isNotNull property="voice_text" prepend=",">
+                voice_text=#voice_text#
+            </isNotNull>
+            <isNotNull property="voice_file_url" prepend=",">
+                voice_file_url=#voice_file_url#
+            </isNotNull>
+        </dynamic>
+        where model_id = #model_id#
+ 	</update>
+ 	
  	<select id="record.select" parameterClass="java.util.Map" resultClass="recordDO">
 		select
 		<include refid="record_query_field" />

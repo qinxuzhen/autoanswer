@@ -4,6 +4,7 @@ package com.alibaba.webx.autoanswer.app1.model.manager.Impl;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -13,6 +14,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.webx.autoanswer.app1.dao.RecordDAO;
 import com.alibaba.webx.autoanswer.app1.util.ConfigHelper;
 import com.alibaba.webx.autoanswer.app1.util.HttpUtil;
 import com.alibaba.webx.autoanswer.app1.util.RequestBody;
@@ -23,6 +25,9 @@ public class TranslationImpl {
 
 	@Resource
 	ConfigHelper configHelper = new ConfigHelper();
+	//写数据库的类
+	@Resource
+    RecordDAO recordDAO;
 	/**
 	 * 服务url
 	 * */
@@ -107,6 +112,28 @@ public class TranslationImpl {
         
         return file;
 	}
+	/**
+	 * 将翻译的文本写到数据库中
+	 * @param ossLink
+	 * @param modelId
+	 * @return
+	 * @throws InterruptedException
+	 */
+	public Integer write2DB(String ossLink,String modelId) throws InterruptedException{
+		Map<Integer, String> result = this.translation(ossLink);
+		if(result == null) return 0;
+		StringBuilder textContent = new StringBuilder();
+		for(String str : result.values()){
+			textContent.append(str + "\r\n");
+		}
+		Map<String,Object> params = new HashMap<String, Object>();
+		params.put("model_id", modelId);
+		params.put("voice_file_url", ossLink);	//录音文件
+		params.put("voice_text", textContent.toString()); //翻译的文本
+		Integer updateRes = recordDAO.upDateRecord(params);
+		return updateRes;
+	}
+	
 	
 	public static void main(String[] args) {
 		TranslationImpl trans = new TranslationImpl();

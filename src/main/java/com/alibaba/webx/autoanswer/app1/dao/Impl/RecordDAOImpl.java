@@ -3,6 +3,7 @@ package com.alibaba.webx.autoanswer.app1.dao.Impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ecs.xhtml.param;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 import org.springframework.stereotype.Component;
 
@@ -20,16 +21,21 @@ public class RecordDAOImpl extends AbstractTransactionBaseDAO implements RecordD
 		return (Long)this.getSqlMapClientTemplate().insert("record.insert",recordDO);
 	}
 	
-	
-
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	@Override
 	public List<RecordDO> queryByRecordDO(Map<String, Object> params) {
-		return (List<RecordDO>)this.getSqlMapClientTemplate().queryForList("record.query",params);
+		return (List<RecordDO>)this.getSqlMapClientTemplate().queryForList("record.select",params);
 	}
 
 	@Override
 	public Integer upDateRecord(Map<String, Object> params) {
 		return (Integer)this.getSqlMapClientTemplate().update("record.update", params);
 	}
+
+	@Override
+	public Integer count(Map<String, Object> params) {
+		return (Integer)this.getSqlMapClientTemplate().queryForObject("record.count",params);
+	}
+	
+	
 }

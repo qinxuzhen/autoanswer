@@ -25,4 +25,11 @@ public interface RecordDAO {
 	 * @return
 	 */
 	public Integer upDateRecord(Map<String, Object> params);
+	
+	/**
+	 * 获取查询结果的数量信息
+	 * @param map
+	 * @return
+	 */
+	public Integer count(Map<String,Object> params);
 }

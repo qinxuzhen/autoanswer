@@ -7,12 +7,31 @@
  */
 package com.alibaba.webx.autoanswer.app1.module.screen.multievent;
 
-import com.alibaba.webx.autoanswer.app1.common.PaginationResult;
-import com.alibaba.webx.autoanswer.app1.model.RecordDO;
-
-import java.util.ArrayList;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.alibaba.citrus.service.requestcontext.parser.ParameterParser;
+import com.alibaba.citrus.turbine.Context;
+import com.alibaba.citrus.turbine.TurbineRunData;
+import com.alibaba.citrus.turbine.util.TurbineUtil;
+import com.alibaba.rocketmq.client.QueryResult;
+import com.alibaba.webx.autoanswer.app1.common.PaginationResult;
+import com.alibaba.webx.autoanswer.app1.common.Result;
+import com.alibaba.webx.autoanswer.app1.dao.RecordDAO;
+import com.alibaba.webx.autoanswer.app1.model.RecordDO;
+import com.alibaba.webx.autoanswer.app1.model.manager.VoiceRecordOpenSeDAO;
+import com.sun.media.jai.opimage.MinCRIF;
 
 /**
  * 类RecordService.java的实现描述：TODO 类实现描述 
@@ -20,35 +39,89 @@ import java.util.List;
  */
 public class RecordService {
 
-    public PaginationResult<List<RecordDO>> doGetRecordList(){
+	@Autowired
+	private HttpServletRequest request;
+	@Resource
+	RecordDAO recordDAO;
+	@Resource
+	VoiceRecordOpenSeDAO voiceRecordOpenSeDAO;
+	
+	DateFormat format = new SimpleDateFormat("yyyy-MM-dd"); 
+	//获取时间段内的呼叫记录列表
+    public PaginationResult<List<RecordDO>> doGetRecordList(Context context){
+
+    	final TurbineRunData rundata = TurbineUtil.getTurbineRunData(request);
+	    final ParameterParser parameterParser = rundata.getParameters();
+	    
+		Date startDate = parameterParser.getDate("startDate", format);
+		Date endDate = parameterParser.getDate("endDate", format);
+		String calling_num = parameterParser.getString("callerNum");
+		String called_num = parameterParser.getString("calleeNum");
+		
+		int page = parameterParser.getInt("start");
+		int size = parameterParser.getInt("limit");
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+	    params.put("startDate", startDate);
+	    params.put("endDate", endDate);
+	    params.put("callingNumber", calling_num);
+	    params.put("calledNumber",called_num);
+	    
+	    params.put("start", page * size);
+	    params.put("limit", size);
+	    
+	    List<RecordDO> queryResult = recordDAO.queryByRecordDO(params);
+	    Integer total = recordDAO.count(params);
+	    
         PaginationResult<List<RecordDO>> result = new PaginationResult<List<RecordDO>>();
-        List<RecordDO> list = new ArrayList<RecordDO>();
-        for(int i = 0; i < 10; i++){
-            RecordDO recordDO = new RecordDO();
-            recordDO.setId(Long.valueOf(i));
-            recordDO.setGmtCreate(new Date());
-            recordDO.setModelId("modelId");
-            recordDO.setCallingNumber("1770651991"+ i);
-            recordDO.setCalledNumber("1709804010"+ i);
-            recordDO.setVoiceFileUrl("http://autoanswer.oss-cn-shanghai.aliyuncs.com/Freeswitch_RU_7e515b72-94db-4869-8fae-e75c9ecda2fa_record.wav");
-            recordDO.setVoiceText("http://www.test.com");
-            list.add(recordDO);
-        }
-        result.setData(list);
+        result.setData(queryResult);
         result.setSuccess(true);
-        result.setTotal(10);
+        result.setTotal(total);
         return result;
     }
     
-    public String doGetFullText(){
-        return "您好，这里是菜鸟网络，请问有什么可以帮助您\n"
-                + "我想查一下我的快递，很多天了都没有给我送到\n"
-                + "麻烦您提供一下运单号\n"
-                + "9823123412340\n"
-                + "好的，我这边帮您查一下\n";
+    /**
+     * 根据modelId 返回完整的文本内容
+     * @param context
+     * @return
+     */
+    public String doGetFullText(Context context){
+    	final TurbineRunData rundata = TurbineUtil.getTurbineRunData(request);
+	    final ParameterParser parameterParser = rundata.getParameters();
+	    String modelId = parameterParser.getString("id");
+	    Map<String, Object> params = new HashMap<String, Object>();
+	    params.put("id", modelId);
+	    List<RecordDO> queryResult = recordDAO.queryByRecordDO(params);
+	    if(!CollectionUtils.isEmpty(queryResult))
+	    	return queryResult.get(0).getVoiceText();
+    	return null;
     }
     
-    public String doGetVoicePath(){
-        return "http://autoanswer.oss-cn-shanghai.aliyuncs.com/Freeswitch_RU_7e515b72-94db-4869-8fae-e75c9ecda2fa_record.wav";
+    /**
+     * 根据文本中的关键字查询电话记录
+     * @param context
+     * @return
+     */
+    public PaginationResult<List<RecordDO>> doGetSearchList(Context context){
+    	PaginationResult<List<RecordDO>> result = new PaginationResult<List<RecordDO>>();
+    	
+    	final TurbineRunData rundata = TurbineUtil.getTurbineRunData(request);
+	    final ParameterParser parameterParser = rundata.getParameters();
+	    
+		String keyWord = parameterParser.getString("keyWord");
+		
+		int start = parameterParser.getInt("start");
+		int size = parameterParser.getInt("limit");
+		if(StringUtils.isEmpty(keyWord)) return result;
+		
+		List<RecordDO> queryResult = voiceRecordOpenSeDAO.queryModelIdByText(keyWord);
+		if(CollectionUtils.isEmpty(queryResult)) return result;
+		
+		List<RecordDO> subList = queryResult.subList(start, Math.min(start + size, queryResult.size()));
+		
+		result.setTotal(queryResult.size());
+        result.setData(subList);
+        result.setSuccess(true);
+        return result;
     }
 }

@@ -18,6 +18,9 @@
 	
 	<sql id="record_query_params">
 		<dynamic prepend="WHERE">
+			<isNotNull property="id" prepend="and">
+				id=#id#
+			</isNotNull>
 			<isNotNull property="callingNumber" prepend="and">
 				calling_number=#callingNumber#
 			</isNotNull>
@@ -31,10 +34,9 @@
 			</isNotNull>
 			<isNotNull prepend="and" property="endDate">
 				<![CDATA[
-					callTime <= #endDate:TIMESTAMP# 
+					call_time <= #endDate:TIMESTAMP# 
 				]]>
 			</isNotNull>
-			order by call_time desc
 		</dynamic>
 	</sql>
 	
@@ -66,6 +68,7 @@
 		<include refid="record_query_field" />
 		from voice_record
 		<include refid="record_query_params" />
+		order by call_time desc
 		<dynamic>
 			<isNotNull property="start">
 				<isNotNull property="limit">

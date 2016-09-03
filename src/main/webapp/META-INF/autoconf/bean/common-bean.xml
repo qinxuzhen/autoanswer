@@ -10,6 +10,8 @@
 		<property name="ACCESS_KEY" value="${robot.ACCESS_KEY}" />
 		<property name="RECORD_BUCKET" value="${robot.RECORD_BUCKET}" />
 		<property name="END_POINT" value="${robot.END_POINT}" />
+		<property name="OPENSEARCH_HOST" value="${robot.OPEN.HOST}"/>
+		<property name="OPENSEARCH_APP_NAME" value="${robot.OPEN.APP}"/>
 	</bean>
     
 </beans>

@@ -48,30 +48,15 @@
 
 <!--left menu end-->
 <div class="dpl-www-content" id="J_Content" >
-
+	
     <!-- 表单区域 -->
     <form class="form-horizontal " id="J_searchForm" data-xtype="form">
         <div class="row row-flex b-search-form b-region mt-10">
             <div class="col-flex">
                 <div class="row cols-fixed">
-                    <div class="col-lg-5">
-                        <div class="c-select input-group" id = "startDate" data-label="开始时间" data-name="startDate"
-                             data-xtype="calendar-select-field" data-value="$lastweek">
-                        </div>
-                    </div>
-
-                    <div class="col-lg-5">
-                        <div class="c-select input-group" id = "endDate" data-label="结束时间" data-name="endDate"
-                             data-xtype="calendar-select-field" data-value="$today">
-                        </div>
-                    </div>
-
                     <!--input 输入框-->
                     <div class="col-lg-5">
-                        <div class="input-group" data-label="主叫号码" data-name="callerNum" data-xtype="text-field"></div>
-                    </div>
-                    <div class="col-lg-5">
-                        <div class="input-group" data-label="被叫号码" data-name="calleeNum" data-xtype="text-field"></div>
+                        <div class="input-group" data-label="关键字" data-name="keyWord" data-xtype="text-field"></div>
                     </div>
                 </div>
             </div>
@@ -79,7 +64,6 @@
                 <button type="button" class="btn btn-primary mt-10 J_Search">查询</button>
             </div>
         </div>
-
     </form>
     <!-- 表单区域 -->
 
@@ -112,10 +96,10 @@
         });
 
 
-        C.use('pages/checkForm', function(Page){
+        C.use('pages/searchForm', function(Page){
             var page = new Page({
                 autoRender: true,
-                queryUrl: '/multievent/record_service/getRecordList.json',
+                queryUrl: '/multievent/record_service/getSearchList.json',
                 requestUrl:'/multievent/record_service/doGetFullText.json',
             });
         });

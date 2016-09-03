@@ -14,6 +14,8 @@ public class ConfigHelper {
     private String ACCESS_KEY;
     private String RECORD_BUCKET;
     private String END_POINT;
+    private String OPENSEARCH_HOST;
+    private String OPENSEARCH_APP_NAME;
     
 
     public String getDaYuAppKey() {
@@ -81,6 +83,21 @@ public class ConfigHelper {
 	public void setEND_POINT(String eND_POINT) {
 		END_POINT = eND_POINT;
 	}
-    
+
+	public String getOPENSEARCH_HOST() {
+		return OPENSEARCH_HOST;
+	}
+
+	public void setOPENSEARCH_HOST(String oPENSEARCH_HOST) {
+		OPENSEARCH_HOST = oPENSEARCH_HOST;
+	}
+
+	public String getOPENSEARCH_APP_NAME() {
+		return OPENSEARCH_APP_NAME;
+	}
+
+	public void setOPENSEARCH_APP_NAME(String oPENSEARCH_APP_NAME) {
+		OPENSEARCH_APP_NAME = oPENSEARCH_APP_NAME;
+	}
     
 }

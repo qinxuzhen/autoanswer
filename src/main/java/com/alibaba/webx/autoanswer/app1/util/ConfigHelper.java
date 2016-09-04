@@ -8,6 +8,7 @@ public class ConfigHelper {
     private String daYuAppKey;
     private String daYuappSecret;
     private String daYuappNum;
+    private String daYunCaller;
     private String daYuURL;
     
     private String ACCESS_ID;
@@ -42,8 +43,6 @@ public class ConfigHelper {
         this.daYuappNum = daYuappNum;
     }
     
-    
-
 	public String getDaYuURL() {
 		return daYuURL;
 	}
@@ -99,5 +98,12 @@ public class ConfigHelper {
 	public void setOPENSEARCH_APP_NAME(String oPENSEARCH_APP_NAME) {
 		OPENSEARCH_APP_NAME = oPENSEARCH_APP_NAME;
 	}
-    
+
+	public String getDaYunCaller() {
+		return daYunCaller;
+	}
+
+	public void setDaYunCaller(String daYunCaller) {
+		this.daYunCaller = daYunCaller;
+	}
 }

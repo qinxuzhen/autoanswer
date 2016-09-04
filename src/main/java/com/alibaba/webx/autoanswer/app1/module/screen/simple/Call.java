@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.citrus.turbine.dataresolver.Param;
 import com.alibaba.citrus.util.StringUtil;
+import com.alibaba.webx.autoanswer.app1.common.Result;
 import com.alibaba.webx.autoanswer.app1.dao.RecordDAO;
 import com.alibaba.webx.autoanswer.app1.model.RecordDO;
 import com.alibaba.webx.autoanswer.app1.model.manager.Impl.OSSManagerImpl;
@@ -49,19 +50,28 @@ public class Call {
     private static final String url = "http://gw.api.taobao.com/router/rest";
 
     
-    public void execute(@Param("fromNum") String fromNum,@Param("toNum") String toNum ) throws Exception {
-//        TaobaoClient client = new DefaultTaobaoClient(url, configHelper.getDaYuAppKey(), configHelper.getDaYuappSecret());
-//        AlibabaAliqinFcVoiceNumDoublecallRequest req = new AlibabaAliqinFcVoiceNumDoublecallRequest();
-//        req.setSessionTimeOut("120");
-//        req.setExtend("12345");
-//        req.setCallerNum(fromNum);
-//        req.setCallerShowNum(configHelper.getDaYuappNum());
-//        req.setCalledNum(toNum);
-//        req.setCalledShowNum(configHelper.getDaYuappNum());
-//        AlibabaAliqinFcVoiceNumDoublecallResponse rsp = client.execute(req);
-//        System.out.println(rsp.getBody());
-//		String model = rsp.getResult().getModel();
-		String model = "102789385954^100288645120";
+	public void execute(@Param("fromNum") String fromNum,@Param("toNum") String toNum ) throws Exception {
+    	if(StringUtil.isEmpty(toNum)) {
+    		return;
+    	}
+    		
+        TaobaoClient client = new DefaultTaobaoClient(url, configHelper.getDaYuAppKey(), configHelper.getDaYuappSecret());
+        AlibabaAliqinFcVoiceNumDoublecallRequest req = new AlibabaAliqinFcVoiceNumDoublecallRequest();
+        req.setSessionTimeOut("120");
+        req.setExtend("12345");
+        
+        if(StringUtil.isEmpty(fromNum))
+        	req.setCallerNum(configHelper.getDaYunCaller());
+        else 
+        	req.setCallerNum(fromNum);
+        
+        req.setCallerShowNum(configHelper.getDaYuappNum());
+        req.setCalledNum(toNum);
+        req.setCalledShowNum(configHelper.getDaYuappNum());
+        AlibabaAliqinFcVoiceNumDoublecallResponse rsp = client.execute(req);
+        System.out.println(rsp.getBody());
+		String model = rsp.getResult().getModel();
+//		String model = "102789385954^100288645120";
         //呼叫信息插入数据库
         RecordDO recordDO = new RecordDO();
         recordDO.setCalledNumber(toNum);
@@ -81,6 +91,7 @@ public class Call {
 //            mqProducerService.send(RecordConstants.MQ_TOPIC,RecordConstants.MAKE_A_CALL,rsp.getResult().getModel(),rsp.getBody());
     	
         System.out.println("Call");
+        return ;
     }
 
     class RecordHandleThread extends Thread{
@@ -130,8 +141,7 @@ public class Call {
                 }catch (Exception e){
                     System.out.println(e);
                 }
-                count ++;
-                
+                count ++;    
             }
         }
     }

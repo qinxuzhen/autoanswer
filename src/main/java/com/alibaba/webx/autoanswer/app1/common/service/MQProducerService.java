@@ -26,6 +26,9 @@ public class MQProducerService implements InitializingBean {
     private  Properties   properties = new Properties();
     private  static Producer     producer;
 
+    private String PID;	//消息生产者ID
+    private String AccessKey;	//阿里云服务器AccessId
+    private String SecretKey;	//阿里元服务器SecretId
     /*
      * (non-Javadoc)
      * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
@@ -33,9 +36,9 @@ public class MQProducerService implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         // TODO Auto-generated method stub
-        properties.put(PropertyKeyConst.ProducerId, "PID_autoanswer");// 您在MQ控制台创建的Producer ID
-        properties.put(PropertyKeyConst.AccessKey, "02tHrZPmtBEzEWqY");// 鉴权用AccessKey，在阿里云服务器管理控制台创建
-        properties.put(PropertyKeyConst.SecretKey, "eXmNTOctyDlprsGTYy0gXQgexWZNI0");
+        properties.put(PropertyKeyConst.ProducerId, PID);// 您在MQ控制台创建的Producer ID
+        properties.put(PropertyKeyConst.AccessKey, AccessKey);// 鉴权用AccessKey，在阿里云服务器管理控制台创建
+        properties.put(PropertyKeyConst.SecretKey, SecretKey);
         producer = ONSFactory.createProducer(properties);
         producer.start();
 

@@ -8,7 +8,15 @@
 package com.alibaba.webx.autoanswer.app1.common.service;
 
 
+import com.alibaba.webx.autoanswer.app1.common.RecordConstants;
+import com.aliyun.openservices.ons.api.Action;
+import com.aliyun.openservices.ons.api.ConsumeContext;
 import com.aliyun.openservices.ons.api.Consumer;
+import com.aliyun.openservices.ons.api.Message;
+import com.aliyun.openservices.ons.api.MessageListener;
+import com.aliyun.openservices.ons.api.ONSFactory;
+import com.aliyun.openservices.ons.api.PropertyKeyConst;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -26,31 +34,34 @@ public class MQConsumerService implements InitializingBean{
     private static Properties properties = new Properties();
     private static Consumer consumer;
     
+    private String CID;
+    private String AccessKey;
+    private String SecretKey;
     
     @Override
     public void afterPropertiesSet() throws Exception {
 //        // TODO Auto-generated method stub
-//        properties.put(PropertyKeyConst.ConsumerId, "CID_autoanswer");// 您在MQ控制台创建的Producer ID
-//        properties.put(PropertyKeyConst.AccessKey, "02tHrZPmtBEzEWqY");// 鉴权用AccessKey，在阿里云服务器管理控制台创建
-//        properties.put(PropertyKeyConst.SecretKey, "eXmNTOctyDlprsGTYy0gXQgexWZNI0");// 鉴权用SecretKey，在阿里云服务器管理控制台创建
-//
-//        if (consumer == null) {
-//            consumer  = ONSFactory.createConsumer(properties);
-//        }
-//
-//        consumer.subscribe(RecordConstants.MQ_TOPIC, "*", new MessageListener() {
-//            @Override
-//            public Action consume(Message message, ConsumeContext context) {
-//                // TODO Auto-generated method stub
-//                if(message == null){
-//                    return Action.CommitMessage;
-//                }
-//                //打电话的消息
+        properties.put(PropertyKeyConst.ConsumerId, CID);// 您在MQ控制台创建的Producer ID
+        properties.put(PropertyKeyConst.AccessKey, AccessKey);// 鉴权用AccessKey，在阿里云服务器管理控制台创建
+        properties.put(PropertyKeyConst.SecretKey, SecretKey);// 鉴权用SecretKey，在阿里云服务器管理控制台创建
+
+        if (consumer == null) {
+            consumer  = ONSFactory.createConsumer(properties);
+        }
+
+        consumer.subscribe(RecordConstants.MQ_TOPIC, "*", new MessageListener() {
+            @Override
+            public Action consume(Message message, ConsumeContext context) {
+                // TODO Auto-generated method stub
+                if(message == null){
+                    return Action.CommitMessage;
+                }
+                //打电话的消息
 //                if(message.getTag().equals(RecordConstants.MAKE_A_CALL)){
 //                    try{
 //                        RecordHandleThread thread = new RecordHandleThread();
-//                        thread.setModel(message.getTag());
-//                        thread.setRetry(10);
+////                        thread.setModel(message.getTag());
+////                        thread.setRetry(10);
 //                        thread.start();
 //                        return Action.CommitMessage;
 //
@@ -59,12 +70,12 @@ public class MQConsumerService implements InitializingBean{
 //                        return Action.ReconsumeLater;
 //                    }
 //                }
-//                return Action.CommitMessage;
-//            }
-//        });
-//
-//        consumer.start();
-//        registerShutdownHook();
+                return Action.CommitMessage;
+            }
+        });
+
+        consumer.start();
+        registerShutdownHook();
     }
     
 
@@ -87,7 +98,7 @@ public class MQConsumerService implements InitializingBean{
 
 
 
-//    class RecordHandleThread extends Thread{
+    class RecordHandleThread extends Thread{
 //        private String model;
 //        private int retry;
 //
@@ -129,7 +140,7 @@ public class MQConsumerService implements InitializingBean{
 //
 //            }
 //        }
-//    }
+    }
 
 
 }

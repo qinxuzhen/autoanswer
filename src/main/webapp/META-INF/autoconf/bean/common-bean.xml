@@ -5,6 +5,7 @@
 		<property name="daYuAppKey" value="${robot.daYuAppKey}" />
 		<property name="daYuappSecret" value="${robot.daYuappSecret}" />
 		<property name="daYuappNum" value="${robot.daYuappNum}" />
+		<property name="daYunCaller" value="${robot.daYunCaller}"/>
 		<property name="daYuURL" value="${robot.daYuURL}" />
 		<property name="ACCESS_ID" value="${robot.ACCESS_ID}" />
 		<property name="ACCESS_KEY" value="${robot.ACCESS_KEY}" />

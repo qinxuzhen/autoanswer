@@ -1,54 +1,5 @@
-<!--header start-->
-<div class="dpl-header">
-    <div class="dpl-header-body">
-        <!--logoStart-->
-        <div class="dpl-logo">
-            <div class="dpl-logo-map rookie-icon"></div>
-            <span class="dpl-title-small">小二工作台</span>
-        </div>
-
-        <!--user info-->
-        <div class="dpl-right-icon dpl-user-info">
-            <div class="dpl-user-name-par dpl-user-map J_MenuTR">
-                <div class="b-user-mask"></div>
-            </div>
-        </div>
-
-        <!--asyn message-->
-
-        <div id="J_Toast" class="dpl-toast">
-            <div class="J_ToastContent dpl-toast-content"></div>
-        </div>
-
-    </div>
-</div>
-<!--header end-->
-
-<!--left menu start-->
-<div class="dpl-left dpl-left-fold" id="J_DplLeftMenu" style="height:-webkit-calc(100% - (50px));height:-moz-calc(100% - (50px));height:-o-calc(100% - (50px));height:-ms-calc(100% - (50px));">
-
-    <div class="dpl-ex-handler"  style="display:none"  id="J_ExBar"></div>
-
-    <div class="dpl-leftContent dpl-no-icon ">
-        <div id="wrapper">
-
-            <div class="dpl-item">
-                <span class=" ">呼叫查询 <i class="dpl-up"></i></span>
-                <ul class="dpl-detail ">
-                    <li class=""><a  href="check.htm"><div class="dpl-a-content">呼叫工具</div></a></li>
-                    <li class=""><a  href="search.htm"><div class="dpl-a-content">文本检索</div></a></li>
-                </ul>
-            </div>
-
-        </div>
-    </div>
-    <div class="dpl-scroll-bar" id="J_ScrollBar"></div>
-</div>
-<script src="//g.alicdn.com/cn/platform-base/1.0.0/widget/menuHeader/header.js"></script>
-
 <!--left menu end-->
 <div class="dpl-www-content" id="J_Content" >
-
     <!-- 表单区域 -->
     <form class="form-horizontal " id="J_searchForm" data-xtype="form">
         <div class="row row-flex b-search-form b-region mt-10">

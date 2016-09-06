@@ -55,7 +55,7 @@ public class RecordService {
 		String calling_num = parameterParser.getString("callerNum");
 		String called_num = parameterParser.getString("calleeNum");
 		
-		int page = parameterParser.getInt("start");
+		int start = parameterParser.getInt("start");
 		int size = parameterParser.getInt("limit");
 		
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -64,7 +64,7 @@ public class RecordService {
 	    params.put("callingNumber", calling_num);
 	    params.put("calledNumber",called_num);
 	    
-	    params.put("start", page * size);
+	    params.put("start", start);
 	    params.put("limit", size);
 	    
 	    List<RecordDO> queryResult = recordDAO.queryByRecordDO(params);

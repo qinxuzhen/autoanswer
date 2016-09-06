@@ -20,6 +20,7 @@ public class Check {
     public void execute(Context context){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_YEAR, 1);
         context.put("today",sdf.format(cal.getTime()));
         cal.add(Calendar.DAY_OF_YEAR, -7);
         context.put("lastweek", sdf.format(cal.getTime()));

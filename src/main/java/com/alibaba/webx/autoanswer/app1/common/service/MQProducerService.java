@@ -40,7 +40,6 @@ public class MQProducerService implements InitializingBean {
         properties.put(PropertyKeyConst.SecretKey, SecretKey);
         producer = ONSFactory.createProducer(properties);
         producer.start();
-        send("DAYU_CALL_RECORD", "call", "msgKey", "body");
         registerShutdownHook();
     }
 
@@ -50,7 +49,9 @@ public class MQProducerService implements InitializingBean {
                                       tag,// tag
                                       msKey,//
                                       body.getBytes("utf-8"));// body
-
+            msg.getKey();
+            msg.getTag();
+            msg.getBody();
             SendResult sendResult = producer.send(msg);
             return sendResult;
         } catch (Exception e) {

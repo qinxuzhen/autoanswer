@@ -56,6 +56,7 @@ public class RecordIOManagerImpl {
         //获取自己数组  
         byte[] getData = readInputStream(inputStream);   
         
+        if(getData.length < 100) return null;
         //文件保存位置  
         File saveDir = new File(savePath);  
         if(!saveDir.exists()){  
@@ -73,7 +74,7 @@ public class RecordIOManagerImpl {
   
         
         System.out.println("info:"+url);
-        System.out.println(" download success");  
+        System.out.println(" download success"); 
         return file.getAbsoluteFile();
     }
 

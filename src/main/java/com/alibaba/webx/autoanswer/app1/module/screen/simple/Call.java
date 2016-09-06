@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.citrus.turbine.dataresolver.Param;
 import com.alibaba.citrus.util.StringUtil;
+import com.alibaba.webx.autoanswer.app1.common.RecordConstants;
+import com.alibaba.webx.autoanswer.app1.common.service.MQProducerService;
 import com.alibaba.webx.autoanswer.app1.dao.RecordDAO;
 import com.alibaba.webx.autoanswer.app1.model.RecordDO;
 import com.alibaba.webx.autoanswer.app1.model.manager.Impl.OSSManagerImpl;
@@ -23,6 +25,7 @@ import com.alibaba.webx.autoanswer.app1.model.manager.Impl.RecordFileManagerImpl
 import com.alibaba.webx.autoanswer.app1.model.manager.Impl.RecordIOManagerImpl;
 import com.alibaba.webx.autoanswer.app1.model.manager.Impl.TranslationImpl;
 import com.alibaba.webx.autoanswer.app1.util.ConfigHelper;
+import com.aliyun.openservices.ons.api.SendResult;
 import com.taobao.api.DefaultTaobaoClient;
 import com.taobao.api.TaobaoClient;
 import com.taobao.api.request.AlibabaAliqinFcVoiceNumDoublecallRequest;
@@ -31,8 +34,6 @@ import com.taobao.api.response.AlibabaAliqinFcVoiceNumDoublecallResponse;
 
 public class Call {
 
-//    @Resource
-//    MQProducerService mqProducerService;
     @Resource
     ConfigHelper configHelper;
     @Resource
@@ -60,34 +61,38 @@ public class Call {
         req.setExtend("12345");
         
         if(StringUtil.isEmpty(fromNum))
-        	req.setCallerNum(configHelper.getDaYunCaller());
-        else 
-        	req.setCallerNum(fromNum);
+        	fromNum = configHelper.getDaYunCaller();
+        req.setCallerNum(fromNum);
         
         req.setCallerShowNum(configHelper.getDaYuappNum());
         req.setCalledNum(toNum);
         req.setCalledShowNum(configHelper.getDaYuappNum());
         AlibabaAliqinFcVoiceNumDoublecallResponse rsp = client.execute(req);
-        System.out.println(rsp.getBody());
-		String model = rsp.getResult().getModel();
+        if(rsp.isSuccess()){
+        	 String model = rsp.getResult().getModel();
+        	 System.out.println("model:" + model);
+        	 SendResult sendMsg = MQProducerService.send(RecordConstants.MQ_TOPIC,RecordConstants.MAKE_A_CALL,model,rsp.getBody());
+        	
+//        	 RecordHandleThread recordHandleThread = new RecordHandleThread();
+//             recordHandleThread.setRetry(20);
+//             recordHandleThread.setModel("102789385954^100288645120");
+//             recordHandleThread.setModel(model);
+//             recordHandleThread.start();
+        	 
+        	 if(sendMsg != null){
+	        	 RecordDO recordDO = new RecordDO();
+	             recordDO.setCalledNumber(toNum);
+	             recordDO.setCallingNumber(fromNum);
+	             recordDO.setModelId(model);
+	             recordDAO.addRecord(recordDO);
+        	 }
+        }
+        
+       
+		
 //		String model = "102789385954^100288645120";
         //呼叫信息插入数据库
-        RecordDO recordDO = new RecordDO();
-        recordDO.setCalledNumber(toNum);
-        recordDO.setCallingNumber(fromNum);
-        recordDO.setModelId(model);
-        recordDAO.addRecord(recordDO);
-        
-        RecordHandleThread recordHandleThread = new RecordHandleThread();
-        recordHandleThread.setRetry(20);
-//        recordHandleThread.setModel("102789385954^100288645120");
-        recordHandleThread.setModel(model);
-        recordHandleThread.start();
-
-
         //{"alibaba_aliqin_fc_voice_num_doublecall_response":{"result":{"err_code":"0","model":"102501079459^100279263324","success":true},"request_id":"10fbxqp0fkt26"}}
-//        if(rsp.isSuccess())
-//            mqProducerService.send(RecordConstants.MQ_TOPIC,RecordConstants.MAKE_A_CALL,rsp.getResult().getModel(),rsp.getBody());
     	
         System.out.println("Call");
         return ;
@@ -126,7 +131,10 @@ public class Call {
                     String fileName = model.replace('^', '0') + ".wav";
                     //文件已经生成的情况下，下载文件
                     File fileDownload = RecordIOManagerImpl.downLoadFileFromURL(urlStr,fileName,"../records");
-                    if(fileDownload == null) continue;
+                    if( fileDownload == null){ 
+                    	Thread.sleep(60000);
+                    	continue;
+                    }
                     //将文件上传到OSS
                     String ossPath = ossManager.uploadFile(fileDownload);
                     System.out.println("ossPath:" + ossPath);

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.alibaba.webx.autoanswer.app1.model.RecordDO;
 
-/**VoiceRecord的RDS操作接口
+/**VoiceRecord for RDS Operation
  * @author wangjiawei.wjw
  * 2016-08-28
  */

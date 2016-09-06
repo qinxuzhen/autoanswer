@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.citrus.turbine.dataresolver.Param;
 import com.alibaba.citrus.util.StringUtil;
-import com.alibaba.webx.autoanswer.app1.common.Result;
 import com.alibaba.webx.autoanswer.app1.dao.RecordDAO;
 import com.alibaba.webx.autoanswer.app1.model.RecordDO;
 import com.alibaba.webx.autoanswer.app1.model.manager.Impl.OSSManagerImpl;

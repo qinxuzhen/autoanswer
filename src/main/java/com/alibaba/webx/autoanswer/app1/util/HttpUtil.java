@@ -14,14 +14,13 @@ import javax.crypto.Mac;
 @SuppressWarnings("restriction")
 public class HttpUtil {
     /*
-     * º∆À„MD5+BASE64
+     * MD5+BASE64
      */
     public static String MD5Base64(String s) throws UnsupportedEncodingException {
         if (s == null)
             return null;
         String encodeStr = "";
 
-        //string ±‡¬Î±ÿ–ÎŒ™utf-8
         byte[] utfBytes = s.getBytes("UTF-8");
 
         MessageDigest mdTemp;
@@ -38,7 +37,6 @@ public class HttpUtil {
     }
 
     /*
-     * º∆À„ HMAC-SHA1
      */
     public static String HMACSha1(String data, String key) {
         String result;
@@ -56,7 +54,6 @@ public class HttpUtil {
     }
 
     /*
-     * µ»Õ¨”⁄javaScript÷–µƒ new Date().toUTCString();
      */
     public static String toGMTString(Date date) {
         SimpleDateFormat df = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss z", Locale.UK);
@@ -65,7 +62,6 @@ public class HttpUtil {
     }
 
     /*
-     * ∑¢ÀÕPOST«Î«Û
      */
     public static String sendPost(String url, String body, String ak_id, String ak_secret) {
         PrintWriter out = null;
@@ -75,7 +71,7 @@ public class HttpUtil {
             URL realUrl = new URL(url);
 
             /*
-             * http header ≤Œ ˝
+             * http header 
              */
             String method = "POST";
             String accept = "application/json";
@@ -83,41 +79,30 @@ public class HttpUtil {
             String path = realUrl.getFile();
             String date = toGMTString(new Date());
 
-            // 1.∂‘body◊ˆMD5+BASE64º”√‹
             String bodyMd5 = MD5Base64(body);
             String stringToSign = method + "\n" + accept + "\n" + bodyMd5 + "\n" + content_type + "\n" + date ;
-            // 2.º∆À„ HMAC-SHA1
             String signature = HMACSha1(stringToSign, ak_secret);
-            // 3.µ√µΩ authorization header
             String authHeader = "Dataplus " + ak_id + ":" + signature;
 
-            // ¥Úø™∫ÕURL÷Æº‰µƒ¡¨Ω”
             URLConnection conn = realUrl.openConnection();
-            // …Ë÷√Õ®”√µƒ«Î«Û Ù–‘
             conn.setRequestProperty("accept", accept);
             conn.setRequestProperty("content-type", content_type);
             conn.setRequestProperty("date", date);
             conn.setRequestProperty("Authorization", authHeader);
-            // ∑¢ÀÕPOST«Î«Û±ÿ–Î…Ë÷√»Áœ¬¡Ω––
             conn.setDoOutput(true);
             conn.setDoInput(true);
-            // ªÒ»°URLConnection∂‘œÛ∂‘”¶µƒ ‰≥ˆ¡˜
             out = new PrintWriter(conn.getOutputStream());
-            // ∑¢ÀÕ«Î«Û≤Œ ˝
             out.print(body);
-            // flush ‰≥ˆ¡˜µƒª∫≥Â
             out.flush();
-            // ∂®“ÂBufferedReader ‰»Î¡˜¿¥∂¡»°URLµƒœÏ”¶
             in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line;
             while ((line = in.readLine()) != null) {
                 result += line;
             }
         } catch (Exception e) {
-            System.out.println("∑¢ÀÕ POST «Î«Û≥ˆœ÷“Ï≥££°" + e);
+            System.out.println("send POST ExceptionÔºÅ" + e);
             e.printStackTrace();
         }
-        //  π”√finallyøÈ¿¥πÿ±’ ‰≥ˆ¡˜°¢ ‰»Î¡˜
         finally {
             try {
                 if (out != null) {
@@ -135,7 +120,6 @@ public class HttpUtil {
 
 
     /*
-     * GET«Î«Û
      */
 
     public static String sendGet(String url, String task_id,String ak_id, String ak_secret) {
@@ -144,40 +128,31 @@ public class HttpUtil {
         try {
             URL realUrl = new URL(url+"/"+task_id);
             /*
-             * http header ≤Œ ˝
              */
             String method = "GET";
             String accept = "application/json";
             String content_type = "application/json";
             String path = realUrl.getFile();
             String date = toGMTString(new Date());
-            // 1.∂‘body◊ˆMD5+BASE64º”√‹
             //String bodyMd5 = MD5Base64("");
             String stringToSign = method + "\n" + accept + "\n" + "" + "\n" + content_type + "\n" + date;
-            // 2.º∆À„ HMAC-SHA1
             String signature = HMACSha1(stringToSign, ak_secret);
-            // 3.µ√µΩ authorization header
             String authHeader = "Dataplus " + ak_id + ":" + signature;
-            // ¥Úø™∫ÕURL÷Æº‰µƒ¡¨Ω”
             URLConnection connection = realUrl.openConnection();
-            // …Ë÷√Õ®”√µƒ«Î«Û Ù–‘
             connection.setRequestProperty("accept", accept);
             connection.setRequestProperty("content-type", content_type);
             connection.setRequestProperty("date", date);
             connection.setRequestProperty("Authorization", authHeader);
-            // Ω®¡¢ µº µƒ¡¨Ω”
             connection.connect();
-            // ∂®“Â BufferedReader ‰»Î¡˜¿¥∂¡»°URLµƒœÏ”¶
             in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line;
             while ((line = in.readLine()) != null) {
                 result += line;
             }
         } catch (Exception e) {
-            System.out.println("∑¢ÀÕGET«Î«Û≥ˆœ÷“Ï≥££°" + e);
+            System.out.println("send GET ExceptionÔºÅ" + e);
             e.printStackTrace();
         }
-        //  π”√finallyøÈ¿¥πÿ±’ ‰»Î¡˜
         finally {
             try {
                 if (in != null) {

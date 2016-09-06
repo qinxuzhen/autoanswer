@@ -66,8 +66,8 @@
         C.use('pages/checkForm', function(Page){
             var page = new Page({
                 autoRender: true,
-                queryUrl: '/multievent/record_service/getRecordList.json',
-                requestUrl:'/multievent/record_service/doGetFullText.json',
+                queryUrl: '../multievent/record_service/getRecordList.json',
+                requestUrl:'../multievent/record_service/doGetFullText.json',
             });
         });
     </script>

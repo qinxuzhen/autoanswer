@@ -5,9 +5,22 @@
              http://java.sun.com/xml/ns/j2ee  http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd
          ">
 
+	<context-param>
+        <param-name>loggingRoot</param-name>
+        <param-value>${robot.logback.root}</param-value>
+    </context-param>
+    <context-param>
+        <param-name>loggingLevel</param-name>
+        <param-value>${robot.logback.level}</param-value>
+    </context-param>
+    <context-param>
+        <param-name>loggingCharset</param-name>
+        <param-value>GB2312</param-value>
+    </context-param>
+    
     <!-- 初始化日志系统 -->
     <listener>
-        <listener-class>com.alibaba.citrus.logconfig.LogConfiguratorListener</listener-class>
+        <listener-class>com.alibaba.webx.autoanswer.app1.util.AutoanswerLoggerListener</listener-class>
     </listener>
 
     <!-- 装载/WEB-INF/webx.xml, /WEB-INF/webx-*.xml -->

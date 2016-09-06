@@ -13,8 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- * 类checkForm.java的实现描述：TODO 类实现描述 
- * @author xuzhen.qxz 2016年7月24日 下午6:31:19
+ * @author xuzhen.qxz 2016.07.24 6:31:19
  */
 public class Check {
     

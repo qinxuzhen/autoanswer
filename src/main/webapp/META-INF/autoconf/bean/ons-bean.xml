@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	 <bean id="mqProducerService" class="com.alibaba.webx.autoanswer.app1.common.service.MQProducerService">
+		<property name="PID" value="${robot.mq.PID}" />
+		<property name="AccessKey" value="${robot.ACCESS_ID}" />
+		<property name="SecretKey" value="${robot.ACCESS_KEY}" />
+	</bean>
+	<!-- 消息服务消费者实例 -->
+    <bean id="mqConsumerService" class="com.alibaba.webx.autoanswer.app1.common.service.MQConsumerService">
+		<property name="CID" value="${robot.mq.CID}" />
+		<property name="AccessKey" value="${robot.ACCESS_ID}" />
+		<property name="SecretKey" value="${robot.ACCESS_KEY}" />
+	</bean>
+    
+</beans>

@@ -32,6 +32,7 @@
 
 	<!-- 自定义bean -->
 	<beans:import resource="bean/common-bean.xml"/>
+	<beans:import resource="bean/ons-bean.xml"/>
 	
 	<!-- URI生成。 -->
 	<beans:import resource="common/uris.xml" />

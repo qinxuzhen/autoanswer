@@ -4,9 +4,9 @@ import java.util.*;
 
 public class RequestBody {
 
-    private String app_key = null; //appkey 应用的key
-    private String oss_link = null; //语音文件存储地址
-    private List<validTime> valid_times =null; //有效时间段ValidTime描述,可选字段
+    private String app_key = null; 
+    private String oss_link = null; 
+    private List<validTime> valid_times =null; 
 
 
     public class validTime{

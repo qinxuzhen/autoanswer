@@ -49,8 +49,8 @@
         C.use('pages/searchForm', function(Page){
             var page = new Page({
                 autoRender: true,
-                queryUrl: '/multievent/record_service/getSearchList.json',
-                requestUrl:'/multievent/record_service/doGetFullText.json',
+                queryUrl: '../multievent/record_service/getSearchList.json',
+                requestUrl:'../multievent/record_service/doGetFullText.json',
             });
         });
     </script>

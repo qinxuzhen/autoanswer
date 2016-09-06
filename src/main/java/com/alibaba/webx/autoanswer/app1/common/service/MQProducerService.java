@@ -15,9 +15,8 @@ import java.util.Properties;
  * into with Alibaba.com.
  */
 /**
- * 类MQProducer.java的实现描述：TODO 类实现描述
  * 
- * @author xuzhen.qxz 2016年7月21日 下午10:22:27
+ * @author xuzhen.qxz 2016.07.21 10:22:27
  */
 
 public class MQProducerService implements InitializingBean {
@@ -26,9 +25,9 @@ public class MQProducerService implements InitializingBean {
     private  Properties   properties = new Properties();
     private  static Producer     producer;
 
-    private String PID;	//消息生产者ID
-    private String AccessKey;	//阿里云服务器AccessId
-    private String SecretKey;	//阿里元服务器SecretId
+    private String PID;	//one producer ID
+    private String AccessKey;	//aliyun account AccessId
+    private String SecretKey;	//aliyun account SecretId
     /*
      * (non-Javadoc)
      * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
@@ -36,12 +35,12 @@ public class MQProducerService implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         // TODO Auto-generated method stub
-        properties.put(PropertyKeyConst.ProducerId, PID);// 您在MQ控制台创建的Producer ID
-        properties.put(PropertyKeyConst.AccessKey, AccessKey);// 鉴权用AccessKey，在阿里云服务器管理控制台创建
+        properties.put(PropertyKeyConst.ProducerId, PID);// Producer ID of MQ console
+        properties.put(PropertyKeyConst.AccessKey, AccessKey);
         properties.put(PropertyKeyConst.SecretKey, SecretKey);
         producer = ONSFactory.createProducer(properties);
         producer.start();
-
+        send("DAYU_CALL_RECORD", "call", "msgKey", "body");
         registerShutdownHook();
     }
 
@@ -76,4 +75,29 @@ public class MQProducerService implements InitializingBean {
         }));
 
     }
+
+	public String getPID() {
+		return PID;
+	}
+
+	public void setPID(String pID) {
+		PID = pID;
+	}
+
+	public String getAccessKey() {
+		return AccessKey;
+	}
+
+	public void setAccessKey(String accessKey) {
+		AccessKey = accessKey;
+	}
+
+	public String getSecretKey() {
+		return SecretKey;
+	}
+
+	public void setSecretKey(String secretKey) {
+		SecretKey = secretKey;
+	}
+    
 }

@@ -24,8 +24,7 @@ import org.springframework.beans.factory.InitializingBean;
 import java.util.Properties;
 
 /**
- * 类MQComsumerService.java的实现描述：TODO 类实现描述 
- * @author xuzhen.qxz 2016年7月21日 下午11:07:17
+ * @author xuzhen.qxz 2016.07.21 11:07:17
  */
 public class MQConsumerService implements InitializingBean{
     
@@ -41,13 +40,11 @@ public class MQConsumerService implements InitializingBean{
     @Override
     public void afterPropertiesSet() throws Exception {
 //        // TODO Auto-generated method stub
-        properties.put(PropertyKeyConst.ConsumerId, CID);// 您在MQ控制台创建的Producer ID
-        properties.put(PropertyKeyConst.AccessKey, AccessKey);// 鉴权用AccessKey，在阿里云服务器管理控制台创建
-        properties.put(PropertyKeyConst.SecretKey, SecretKey);// 鉴权用SecretKey，在阿里云服务器管理控制台创建
+        properties.put(PropertyKeyConst.ConsumerId, CID);// 
+        properties.put(PropertyKeyConst.AccessKey, AccessKey);// 
+        properties.put(PropertyKeyConst.SecretKey, SecretKey);//
 
-        if (consumer == null) {
-            consumer  = ONSFactory.createConsumer(properties);
-        }
+        consumer  = ONSFactory.createConsumer(properties);
 
         consumer.subscribe(RecordConstants.MQ_TOPIC, "*", new MessageListener() {
             @Override
@@ -56,7 +53,6 @@ public class MQConsumerService implements InitializingBean{
                 if(message == null){
                     return Action.CommitMessage;
                 }
-                //打电话的消息
 //                if(message.getTag().equals(RecordConstants.MAKE_A_CALL)){
 //                    try{
 //                        RecordHandleThread thread = new RecordHandleThread();
@@ -70,6 +66,7 @@ public class MQConsumerService implements InitializingBean{
 //                        return Action.ReconsumeLater;
 //                    }
 //                }
+                log.info("receive a message");
                 return Action.CommitMessage;
             }
         });
@@ -117,22 +114,17 @@ public class MQConsumerService implements InitializingBean{
 //            while(true){
 //                if(count > retry) break;
 //                try {
-//                    //检查文件有没有生成
 //                    String result = RecordIOManagerImpl.checkFileExistence(url);
 //                    if(StringUtil.isBlank(result)){
 //                        Thread.sleep(2 * 60 * 1000);
 //                        continue;
 //                    }
 //                    System.out.print(result);
-//                    //文件生成了之后,下载下来并且上传至OSS
 //                    RecordIOManagerImpl.downLoadFileFromURL(result,model,"/records/" + model );
-//                    //上传到OSS
 //                    File file = new File("/records/" + model);
 //                    String ossPath = OSSManagerImpl.uploadFile(file);
 //
-//                    //文件上传之后调用语音识别接口
 //                    List<String> transList = TranscriptionImpl.translation(ossPath);
-//                    //调用语音识别接口,获取语音识别的结果
 //
 //                }catch (Exception e){
 //                    System.out.println(e);
@@ -143,4 +135,33 @@ public class MQConsumerService implements InitializingBean{
     }
 
 
+
+	public String getCID() {
+		return CID;
+	}
+
+
+	public void setCID(String cID) {
+		CID = cID;
+	}
+
+
+	public String getAccessKey() {
+		return AccessKey;
+	}
+
+
+	public void setAccessKey(String accessKey) {
+		AccessKey = accessKey;
+	}
+
+
+	public String getSecretKey() {
+		return SecretKey;
+	}
+
+
+	public void setSecretKey(String secretKey) {
+		SecretKey = secretKey;
+	}
 }

@@ -25,13 +25,10 @@ import com.alibaba.citrus.service.requestcontext.parser.ParameterParser;
 import com.alibaba.citrus.turbine.Context;
 import com.alibaba.citrus.turbine.TurbineRunData;
 import com.alibaba.citrus.turbine.util.TurbineUtil;
-import com.alibaba.rocketmq.client.QueryResult;
 import com.alibaba.webx.autoanswer.app1.common.PaginationResult;
-import com.alibaba.webx.autoanswer.app1.common.Result;
 import com.alibaba.webx.autoanswer.app1.dao.RecordDAO;
 import com.alibaba.webx.autoanswer.app1.model.RecordDO;
 import com.alibaba.webx.autoanswer.app1.model.manager.VoiceRecordOpenSeDAO;
-import com.sun.media.jai.opimage.MinCRIF;
 
 /**
  * 类RecordService.java的实现描述：TODO 类实现描述 
